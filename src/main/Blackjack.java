@@ -1,3 +1,4 @@
+package main;
 /**
  * Blackjack card game.
  * Aim to obtain a score of 21

@@ -1,3 +1,4 @@
+package main;
 /**
  * Card class represents a card from the deck.
  * Maintaining its suit and value.
@@ -20,5 +21,9 @@ public class Card{
     // return string rather than (int) value - allows for other games to be coded
     public String getValue(){
         return value;
+    }
+
+    public String toString(){
+        return suit + "-" + value;
     }
 }
