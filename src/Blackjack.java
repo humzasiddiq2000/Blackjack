@@ -4,9 +4,14 @@
  * 
  * Jack | Queen | King == 10 each
  */
-public class Blackjack {
+public class Blackjack implements CardGame{
 
     public Blackjack(){
         
+    }
+
+    @Override
+    public void play() {
+
     }
 }
