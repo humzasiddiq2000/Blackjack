@@ -1,11 +1,10 @@
 package tests;
-import static org.junit.Assert.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
 
 import main.*;
 
@@ -43,5 +42,21 @@ public class DeckTest {
         deck.shuffle();
         Card[] afterShuffle = deck.getDeck();
         assertTrue(beforeShuffle != afterShuffle);
+    }
+
+    @Test
+    public void getNextCard(){
+        deck = new Deck(); // ensure new (complete) deck
+        for(int i = 0; i < 52; i++){
+            try{
+                deck.getCard();
+            }
+            catch(DeckEmptyException err){
+                fail("should not throw DeckEmptyException!");
+            }
+        }
+        assertThrows(DeckEmptyException.class, () -> {
+            deck.getCard();
+        });
     }
 }
