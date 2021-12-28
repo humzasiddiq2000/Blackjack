@@ -1,10 +1,11 @@
 package main;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 /**
  * Deck class represents a card deck.
  * Containing deck operations.
@@ -22,6 +23,13 @@ public class Deck {
         initialiseValueMapping();
         initaliseSuitMapping();
         populateDeck();
+        shuffle();
+    }
+
+    public void shuffle() {
+        List<Card> deckList = Arrays.asList(deck);
+        Collections.shuffle(deckList);
+        deck = (Card[]) deckList.toArray(new Card[deck.length]);
     }
 
     private void populateDeck() {
@@ -70,10 +78,5 @@ public class Deck {
 
     public String toString(){
         return Arrays.toString(deck);
-    }
-
-    public static void main(String args[]){
-        Deck d = new Deck();
-        System.out.println(d.toString());
     }
 }
