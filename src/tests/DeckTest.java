@@ -35,4 +35,13 @@ public class DeckTest {
             assertTrue(cardDeck[i] != null);
         }
     }
+
+    @Test
+    public void shuffleDeck(){
+        Card[] beforeShuffle = deck.getDeck();
+        System.out.println(beforeShuffle);
+        deck.shuffle();
+        Card[] afterShuffle = deck.getDeck();
+        assertTrue(beforeShuffle != afterShuffle);
+    }
 }
