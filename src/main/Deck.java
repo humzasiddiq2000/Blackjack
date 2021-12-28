@@ -19,11 +19,21 @@ public class Deck {
     private Map<String, Integer> cardValues = new HashMap<>();
     private Set<String> cardSuits = new HashSet<>();
 
-    public Deck(){
+    public Deck() {
         initialiseValueMapping();
         initaliseSuitMapping();
         populateDeck();
         shuffle();
+    }
+
+    public Card getCard() throws DeckEmptyException {
+        if(nextCardPointer < deck.length){
+            Card nextCard = deck[nextCardPointer];
+            nextCardPointer++;
+            return nextCard;
+        }
+        else
+            throw new DeckEmptyException();
     }
 
     public void shuffle() {
@@ -72,11 +82,11 @@ public class Deck {
         cardValues.put("king", 10);
     }
 
-    public Card[] getDeck(){
+    public Card[] getDeck() {
         return deck;
     }
 
-    public String toString(){
+    public String toString() {
         return Arrays.toString(deck);
     }
 }
