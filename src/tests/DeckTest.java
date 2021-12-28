@@ -59,4 +59,23 @@ public class DeckTest {
             deck.getCard();
         });
     }
+
+    @Test
+    public void resetDeck(){
+        deck = new Deck(); // ensure new (complete) deck
+        for(int i = 0; i < 52; i++){
+            try{
+                deck.getCard();
+            }
+            catch(DeckEmptyException err){
+                fail("should not throw DeckEmptyException!");
+            }
+        }
+
+        deck.resetDeck();
+        Card[] cardDeck = deck.getDeck();
+        for(int i = 0; i < cardDeck.length; i++){
+            assertTrue(cardDeck[i] != null);
+        }
+    }
 }
