@@ -26,6 +26,11 @@ public class Deck {
         shuffle();
     }
 
+    public void resetDeck() {
+        populateDeck();
+        shuffle();
+    }
+
     public Card getCard() throws DeckEmptyException {
         if(nextCardPointer < deck.length){
             Card nextCard = deck[nextCardPointer];
