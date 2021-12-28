@@ -14,4 +14,9 @@ public class Blackjack implements CardGame{
     public void play() {
 
     }
+
+    @Override
+    public void initaliseDeck() {
+        
+    }
 }
