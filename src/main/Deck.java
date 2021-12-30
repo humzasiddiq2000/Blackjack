@@ -27,6 +27,7 @@ public class Deck {
     }
 
     public void resetDeck() {
+        nextCardPointer = 0;
         populateDeck();
         shuffle();
     }
@@ -89,6 +90,14 @@ public class Deck {
 
     public Card[] getDeck() {
         return deck;
+    }
+
+    public Map<String, Integer> getCardValues(){
+        return cardValues;
+    }
+
+    public Set<String> getSuits(){
+        return cardSuits;
     }
 
     public String toString() {
