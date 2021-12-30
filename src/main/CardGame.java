@@ -5,4 +5,5 @@ package main;
 public interface CardGame {
     public void play();
     public void initaliseDeck();
+    public void resetGame();
 }
