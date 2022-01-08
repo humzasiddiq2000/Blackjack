@@ -55,7 +55,7 @@ public class Blackjack implements CardGame{
             else if(move.equals("stand")){
                 printHand();
                 printScore(playersHand);
-                break;
+                stand = true;
             }
         }
 
@@ -73,8 +73,8 @@ public class Blackjack implements CardGame{
 
     private void printHand() {
         System.out.println("\n=== Hand ===");
-        for(int i = 0; i < playersHand.size(); i++){
-            System.out.println(playersHand.get(i).value + "\tOf\t" + playersHand.get(i).suit);
+        for (Card card : playersHand) {
+            System.out.println(card.value + "\tOf\t" + card.suit);
         }
         System.out.println();
     }
@@ -90,17 +90,15 @@ public class Blackjack implements CardGame{
         int score = 0;
         int aceCounter = 0;
         
-        for(int i = 0; i < playersHand.size(); i++){
-            Card card = playersHand.get(i);
+        for (Card card : playersHand) {
             int cardValue = cardValues.get(card.value);
 
-            if(cardValue != 1){
+            if (cardValue != 1) {
                 score += cardValue;
-            }
-            else
-                aceCounter ++;
-            
+            } else
+                aceCounter++;
         }
+
         for(int i = 0; i < aceCounter; i++){
             int tempScore1 = score + 1;
             int tempScore2 = score + 11;
@@ -164,9 +162,9 @@ public class Blackjack implements CardGame{
         return win;
     }
 
-    public static void main(String args[]){
+    public static void main(String[] args){
         CardGame blackjack = new Blackjack();
-        Scanner scn = new Scanner(System.in);;
+        Scanner scn = new Scanner(System.in);
         
         System.out.println("Welcome to Blackjack!");
         while(true){
