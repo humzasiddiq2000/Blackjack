@@ -12,8 +12,10 @@ import java.util.Scanner;
  */
 public class Blackjack implements CardGame{
 
-    ArrayList<Card> playersHand = new ArrayList<>();
-    Deck cardDeck = new Deck();
+    private ArrayList<Card> playersHand = new ArrayList<>();
+    private Deck cardDeck;
+    private boolean bust = false;
+    private boolean win = false;
 
     public Blackjack(){
         initaliseDeck();
@@ -21,10 +23,9 @@ public class Blackjack implements CardGame{
 
     private void dealOpeningHand() {
         try {
-            playersHand.add(cardDeck.getCard());
-            playersHand.add(cardDeck.getCard());
+            addToPlayersHand(cardDeck.getCard());
+            addToPlayersHand(cardDeck.getCard());
         } catch (DeckEmptyException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -47,7 +48,7 @@ public class Blackjack implements CardGame{
                     System.out.println("No cards left...");
                     break;
                 }
-                playersHand.add(nextCard);
+                addToPlayersHand(nextCard);
                 printHand();
                 printScore(playersHand);
             }
@@ -58,9 +59,9 @@ public class Blackjack implements CardGame{
             }
         }
 
-        if(score(playersHand) > 21)
+        if(bust)
             System.out.println("BUST!\n");
-        else if(score(playersHand) == 21)
+        else if(win)
             System.out.println("You Win!\n");
         else
             System.out.println("Failed to obtain 21, You lose!\n");
@@ -84,55 +85,92 @@ public class Blackjack implements CardGame{
         return scn.nextLine().toLowerCase().replace("> ", "");
     }
 
-    private int score(ArrayList<Card> playersHand) {
+    public int score(ArrayList<Card> playersHand) {
         Map<String, Integer> cardValues = cardDeck.getCardValues();
         int score = 0;
+        int aceCounter = 0;
         
         for(int i = 0; i < playersHand.size(); i++){
-            boolean aceFlag = false;
             Card card = playersHand.get(i);
             int cardValue = cardValues.get(card.value);
 
             if(cardValue != 1){
-                aceFlag = false;
                 score += cardValue;
             }
-            else{
-                int tempScore1 = score + cardValue;
-                int tempScore2 = score + 11;
-
-                // take closest score to 21
-                int tempScore1Diff = Math.abs(21 - tempScore1);
-                int tempScore2Diff = Math.abs(21 - tempScore2);
-
-                
-                score = (tempScore1Diff < tempScore2Diff) ? tempScore1 : tempScore2;
-                
-            }
-
+            else
+                aceCounter ++;
+            
         }
+        for(int i = 0; i < aceCounter; i++){
+            int tempScore1 = score + 1;
+            int tempScore2 = score + 11;
+
+            /*
+                Scoring mechanism for ace(s):
+                * if (+1 > 21 AND +11 > 21) => score += MIN (+1)
+                * if (+1 > 21 AND +11 <= 21) => score += +11
+
+                * if (+1 <= 21 AND +11 > 21) => score += (+1)
+                * if (+1 <= 21 AND +11 <= 21) => score += MAX (+11)
+            */
+
+            if(tempScore1 > 21 && tempScore2 > 21)
+                score = Math.min(tempScore1, tempScore2);
+            else if(tempScore1 > 21 && tempScore2 <= 21)
+                score = tempScore2;
+            else if(tempScore1 <= 21 && tempScore2 > 21)
+                score = tempScore1;
+            else if(tempScore1 <= 21 && tempScore2 <= 21)
+                score = Math.max(tempScore1, tempScore2);
+        }
+
+        if(score > 21) 
+            bust = true;
+        if(score == 21)
+            win = true;
+        
         return score;
     }
 
     @Override
     public void initaliseDeck() {
-        
+        cardDeck = new Deck();
     }
 
     public void resetGame() {
         playersHand.clear();
         cardDeck.resetDeck();
+        bust = false;
+        win = false;
+    }
+
+    public ArrayList<Card> getPlayersHand() {
+        return playersHand;
+    }
+
+    public Deck getCardDeck() {
+        return cardDeck;
+    }
+
+    public void addToPlayersHand(Card card){
+        playersHand.add(card);
+    }
+
+    public boolean getBust(){
+        return bust;
+    }
+
+    public boolean getWin(){
+        return win;
     }
 
     public static void main(String args[]){
         CardGame blackjack = new Blackjack();
-        Scanner scn = new Scanner(System.in);
-
+        Scanner scn = new Scanner(System.in);;
+        
         System.out.println("Welcome to Blackjack!");
-        
-        
         while(true){
-            System.out.println("Press Enter to play, (q) to quit, (i) for instructions");
+            System.out.println("Press (Enter) to play, (q) to quit, (i) for instructions");
             System.out.print("> ");
             String input = scn.nextLine();
 
@@ -147,6 +185,7 @@ public class Blackjack implements CardGame{
                     System.out.println("=== Instructions ===");
                     System.out.println("The aim of Blackjack is to obtain a score of (or close to) 21.");
                     System.out.println("Enter 'hit' to receive another card, or 'stand' to finish\n");
+                    break;
             }
             blackjack.resetGame();
         }

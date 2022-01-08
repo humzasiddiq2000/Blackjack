@@ -39,7 +39,7 @@ public class Deck {
             return nextCard;
         }
         else
-            throw new DeckEmptyException();
+            throw new DeckEmptyException("No cards left");
     }
 
     public void shuffle() {
