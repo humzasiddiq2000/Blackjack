@@ -16,3 +16,9 @@ Using your favourite IDE, import the `/src` folder, then build and run from the 
 ### JAR
 Use the following command to run using the JAR file provided:
 `java -jar Blackjack.jar`
+
+## Assumptions
+* Single player game
+* Single objective to obtain 21
+* Score < 21, player failed to obtain 21, player loses
+* Score > 21, player _bust_, player loses
